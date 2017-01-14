@@ -48,3 +48,10 @@ def compile_train_val_file(data_path, dump_train_file, dump_val_file, size=(299,
     print('Dump val data {} to {}'.format(val_imgs.shape, dump_val_file))
     with open(dump_val_file, 'wb') as f:
         pickle.dump(obj=(val_imgs, val_labels), file=f)
+
+
+def inception_preprocess(x):
+    x /= 255.
+    x -= 0.5
+    x *= 2.
+    return x
