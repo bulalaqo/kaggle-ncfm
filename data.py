@@ -5,6 +5,8 @@ import pickle
 from scipy.misc import imread, imresize
 from sklearn.utils import shuffle
 
+from keras.preprocessing.image import ImageDataGenerator
+
 from config import CLASS_MAP
 
 
@@ -50,19 +52,21 @@ def compile_train_val_file(data_path, dump_train_file, dump_val_file, size=(299,
         pickle.dump(obj=(val_imgs, val_labels), file=f)
 
 
-def load_train_val_data(train_data_file, val_data_file):
-    print('Loading data ...')
-    with open(train_data_file, 'rb') as f:
-        x_train, y_train = pickle.load(f)
-        x_train = inception_preprocess(x_train)
-    print('Train data: {}'.format(x_train.shape))
+def load_train_generator(train_data_file, batch_size=50):
+    """Random flipping, corping"""
+    x_train, y_train = load_data(train_data_file)
+    gen = ImageDataGenerator(width_shift_range=0.1, height_shift_range=0.1,
+                             horizontal_flip=True, vertical_flip=True)
+    return gen.flow(x_train, y_train, batch_size=batch_size)
 
-    with open(val_data_file, 'rb') as f:
-        x_val, y_val= pickle.load(f)
-        x_val = inception_preprocess(x_val)
-    print('Val data: {}'.format(x_val.shape))
 
-    return x_train, y_train, x_val, y_val
+def load_data(data_file):
+    print('Loading data from {} ...'.format(data_file))
+    with open(data_file, 'rb') as f:
+        features, labels = pickle.load(f)
+        features = inception_preprocess(features)
+    print('Data: {}'.format(features.shape))
+    return features, labels
 
 
 def inception_preprocess(x):
