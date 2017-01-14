@@ -52,6 +52,26 @@ def compile_train_val_file(data_path, dump_train_file, dump_val_file, size=(299,
         pickle.dump(obj=(val_imgs, val_labels), file=f)
 
 
+def compile_test_file(test_path, dump_test_file, size=(299, 299)):
+    imgs = []
+    img_names = []
+    test_img_files = glob.glob(os.path.join(test_path, '*'))
+    for test_img_file in test_img_files:
+        print(test_img_file, end='\r')
+        img_name = test_img_file.split('/')[-1]
+        origin_im = imread(test_img_file)
+        resize_im = imresize(origin_im, size)
+        imgs.append(resize_im)
+        img_names.append(img_name)
+
+    test_imgs = np.stack(imgs)
+    test_names = img_names
+
+    print('Dump test data {} to {}'.format(test_imgs.shape, dump_test_file))
+    with open(dump_test_file, 'wb') as f:
+        pickle.dump(obj=(test_imgs, test_names), file=f)
+
+
 def load_train_generator(train_data_file, batch_size=50):
     """Random flipping, corping"""
     x_train, y_train = load_data(train_data_file)
