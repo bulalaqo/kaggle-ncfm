@@ -5,6 +5,7 @@ from keras.optimizers import Adam
 from model.inception_v3_fc import *
 from data import load_data, load_train_generator
 
+
 def train_inceptionv3_baseline(train_data_file, val_data_file, hidden_size):
     print('Building model ...')
     model = inception_v3_single_fc_model(hidden_size)

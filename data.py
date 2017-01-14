@@ -70,7 +70,7 @@ def load_data(data_file):
 
 
 def inception_preprocess(x):
-    x = x.astype(np.float32)
+    x = x.astype(np.float32, copy=False)
     x /= 255.
     x -= 0.5
     x *= 2.
