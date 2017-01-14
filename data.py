@@ -50,7 +50,23 @@ def compile_train_val_file(data_path, dump_train_file, dump_val_file, size=(299,
         pickle.dump(obj=(val_imgs, val_labels), file=f)
 
 
+def load_train_val_data(train_data_file, val_data_file):
+    print('Loading data ...')
+    with open(train_data_file, 'rb') as f:
+        x_train, y_train = pickle.load(f)
+        x_train = inception_preprocess(x_train)
+    print('Train data: {}'.format(x_train.shape))
+
+    with open(val_data_file, 'rb') as f:
+        x_val, y_val= pickle.load(f)
+        x_val = inception_preprocess(x_val)
+    print('Val data: {}'.format(x_val.shape))
+
+    return x_train, y_train, x_val, y_val
+
+
 def inception_preprocess(x):
+    x = x.astype(np.float32)
     x /= 255.
     x -= 0.5
     x *= 2.
