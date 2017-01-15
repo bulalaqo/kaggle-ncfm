@@ -26,10 +26,11 @@ def linear_model(input_size):
     return Model(input, net)
 
 
-def mlp_model(input_size, hidden_sizes):
+def mlp_model(input_size, hidden_sizes, drop_rate=0.4):
     input = Input(shape=(input_size,))
     net = input
     for hidden_size in hidden_sizes:
         net = Dense(hidden_size, activation='relu')(net)
+        net = Dropout(drop_rate)(net)
     net = Dense(NUM_CLASS, activation='softmax')(net)
     return Model(input, net)
