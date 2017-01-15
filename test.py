@@ -17,9 +17,9 @@ def testing(test_file, ckpt_file, result_file):
             print('{},{}'.format(name, prob_str), file=f)
 
 
-def testing_linear_models(test_file, models, result_file):
+def testing_feat_models(test_feature_file, models, result_file):
     probs = []
-    with open(test_file, 'rb') as f:
+    with open(test_feature_file, 'rb') as f:
         x_test, names = pickle.load(f)
 
     for model in models:

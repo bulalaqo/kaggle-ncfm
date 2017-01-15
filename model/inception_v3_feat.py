@@ -24,3 +24,12 @@ def linear_model(input_size):
     input = Input(shape=(input_size,))
     net = Dense(NUM_CLASS, activation='softmax')(input)
     return Model(input, net)
+
+
+def mlp_model(input_size, hidden_sizes):
+    input = Input(shape=(input_size,))
+    net = input
+    for hidden_size in hidden_sizes:
+        net = Dense(hidden_size, activation='relu')(net)
+    net = Dense(NUM_CLASS, activation='softmax')(net)
+    return Model(input, net)
