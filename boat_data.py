@@ -81,6 +81,7 @@ class BoatTrainData:
                     x_train.append(x)
                     y_train.append(y)
         x_train = inception_preprocess(np.stack(x_train))
+        x_train, y_train = shuffle(x_train, y_train)
         x_val = inception_preprocess(np.stack(x_val))
         train_gen = ImageDataGenerator(width_shift_range=0.1, height_shift_range=0.1,
                                        horizontal_flip=True, vertical_flip=True)
