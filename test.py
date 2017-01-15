@@ -21,6 +21,7 @@ def testing_by_models(test_file, models, result_file):
     for model in models:
         x_test, names = load_data(test_file)
         prob = model.predict(x_test, batch_size=100, verbose=True)
+        probs.append(prob)
 
     avg_prob = np.mean(np.stack(probs))
     with open(result_file, 'w') as f:
