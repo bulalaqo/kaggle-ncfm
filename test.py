@@ -24,8 +24,7 @@ def testing_by_models(test_file, models, result_file):
         prob = model.predict(x_test, batch_size=100, verbose=True)
         probs.append(prob)
 
-    avg_prob = np.mean(np.stack(probs))
-    pdb.set_trace()
+    avg_prob = np.mean(np.stack(probs), axis=0)
     with open(result_file, 'w') as f:
         print('image,ALB,BET,DOL,LAG,NoF,OTHER,SHARK,YFT', file=f)
         for name, prob in zip(names, avg_prob):
