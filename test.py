@@ -1,4 +1,5 @@
 import numpy as np
+import pdb
 from keras.models import load_model
 
 from data import load_data
@@ -24,6 +25,7 @@ def testing_by_models(test_file, models, result_file):
         probs.append(prob)
 
     avg_prob = np.mean(np.stack(probs))
+    pdb.set_trace()
     with open(result_file, 'w') as f:
         print('image,ALB,BET,DOL,LAG,NoF,OTHER,SHARK,YFT', file=f)
         for name, prob in zip(names, avg_prob):
