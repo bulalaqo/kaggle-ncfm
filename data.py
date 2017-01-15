@@ -52,6 +52,30 @@ def compile_train_val_file(data_path, dump_train_file, dump_val_file, size=(299,
         pickle.dump(obj=(val_imgs, val_labels), file=f)
 
 
+def compile_train_file(data_path, dump_train_file, size=(299, 299)):
+    imgs = []
+    labels = []
+    train_sub_paths = sorted(glob.glob(os.path.join(data_path, '*')))
+    for train_sub_path in train_sub_paths:
+        print('Processing {} ...'.format(train_sub_path))
+        cls_name = train_sub_path.split('/')[-1]
+        train_img_files = sorted(glob.glob(os.path.join(train_sub_path, '*')))
+        for train_img_file in train_img_files:
+            print(train_img_file, end='\r')
+            origin_im = imread(train_img_file)
+            resize_im = imresize(origin_im, size)
+            imgs.append(resize_im)
+            labels.append(CLASS_MAP[cls_name])
+
+    imgs, labels = shuffle(imgs, labels)
+    train_imgs = np.stack(imgs)
+    train_labels = np.stack(labels)
+
+    print('Dump train data {} to {}'.format(train_imgs.shape, dump_train_file))
+    with open(dump_train_file, 'wb') as f:
+        pickle.dump(obj=(train_imgs, train_labels), file=f)
+
+
 def compile_test_file(test_path, dump_test_file, size=(299, 299)):
     imgs = []
     img_names = []
