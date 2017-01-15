@@ -19,11 +19,13 @@ def testing(test_file, ckpt_file, result_file):
 
 def testing_linear_models(test_file, models, result_file):
     probs = []
+    with open(test_file, 'rb') as f:
+        x_test, names = pickle.load(f)
+
     for model in models:
-        with open(test_file, 'rb') as f:
-            x_test, names = pickle.load(f) 
         prob = model.predict(x_test, batch_size=100, verbose=True)
         probs.append(prob)
+        print()
 
     avg_prob = np.mean(np.stack(probs), axis=0)
     with open(result_file, 'w') as f:
