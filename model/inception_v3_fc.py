@@ -30,6 +30,6 @@ def inception_v3_muliple_fc_drop_model(hidden_sizes, drop_rate=0.2):
     net = Flatten()(net)
     for hidden_size in hidden_sizes:
         net = Dense(hidden_size, activation='relu')(net)
-    net = Dropout(drop_rate)(net)
+        net = Dropout(drop_rate)(net)
     net = Dense(NUM_CLASS, activation='softmax')(net)
     return Model(base_model.input, net)

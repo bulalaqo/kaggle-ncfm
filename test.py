@@ -6,7 +6,7 @@ from data import load_data
 def testing(test_file, ckpt_file, result_file):
     model = load_model(ckpt_file)
     x_test, names = load_data(test_file)
-    probs = model.predict(x_test, batch_size=100)
+    probs = model.predict(x_test, batch_size=100, verbose=True)
 
     with open(result_file, 'w') as f:
         print('image,ALB,BET,DOL,LAG,NoF,OTHER,SHARK,YFT', file=f)
