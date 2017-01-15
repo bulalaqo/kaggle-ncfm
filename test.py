@@ -1,5 +1,5 @@
 import numpy as np
-import pdb
+import pickle
 from keras.models import load_model
 
 from data import load_data
@@ -17,10 +17,11 @@ def testing(test_file, ckpt_file, result_file):
             print('{},{}'.format(name, prob_str), file=f)
 
 
-def testing_by_models(test_file, models, result_file):
+def testing_linear_models(test_file, models, result_file):
     probs = []
     for model in models:
-        x_test, names = load_data(test_file)
+        with open(test_file, 'rb') as f:
+            x_test, names = pickle.load(f) 
         prob = model.predict(x_test, batch_size=100, verbose=True)
         probs.append(prob)
 
