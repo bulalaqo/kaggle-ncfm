@@ -65,8 +65,9 @@ class BoatTrainData:
         val_size = 0
         val_idx = []
         while val_size < 500:
-            val_idx.append(random.choice(idxs))
-            val_size += self.data[val_idx]
+            new_idx = random.choice(idxs)
+            val_idx.append(new_idx)
+            val_size += len(self.data[new_idx])
 
         x_train, y_train, x_val, y_val = [], [], [], []
         for i, sub_data in enumerate(self.data):
