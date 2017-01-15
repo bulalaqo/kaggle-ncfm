@@ -29,6 +29,7 @@ def train_linear(feature_file, n_fold=5, nb_epoch=10):
         model.compile(optimizer=Adam(0.001), loss='categorical_crossentropy', metrics=['accuracy'])
         x_train, x_val = x_all[train_index], x_all[val_index]
         y_train, y_val = y_all[train_index], y_all[val_index]
+        pdb.set_trace()
         model.fit(x_train, y_train, batch_size=50, nb_epoch=nb_epoch, validation_data=(x_val, y_val))
         models.append(model)
     return models
