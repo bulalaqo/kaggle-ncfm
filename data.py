@@ -52,7 +52,7 @@ def compile_train_val_file(data_path, dump_train_file, dump_val_file, size=(299,
         pickle.dump(obj=(val_imgs, val_labels), file=f)
 
 
-def compile_train_file(data_path, dump_train_file, size=(299, 299)):
+def compile_train_file(data_path, dump_train_file, size=(299, 299), flip=None):
     imgs = []
     labels = []
     train_sub_paths = sorted(glob.glob(os.path.join(data_path, '*')))
@@ -64,7 +64,12 @@ def compile_train_file(data_path, dump_train_file, size=(299, 299)):
             print(train_img_file, end='\r')
             origin_im = imread(train_img_file)
             resize_im = imresize(origin_im, size)
-            imgs.append(resize_im)
+            if flip == 'h':
+                imgs.append(resize_im[::-1, :, :])
+            elif flip == 'v':
+                imgs.append(resize_im[:, ::-1, :])
+            else:
+                imgs.append(resize_im)
             labels.append(CLASS_MAP[cls_name])
 
     imgs, labels = shuffle(imgs, labels)

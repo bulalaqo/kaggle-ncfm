@@ -9,8 +9,8 @@ from model.inception_v3_feat import *
 from data import load_data, load_train_generator
 
 
-def extract_feature(train_data_file, feature_file):
-    x_train, y_train = load_data(train_data_file)
+def extract_feature(raw_data_file, feature_file):
+    x_train, y_train = load_data(raw_data_file)
     model = inception_v3_avg_feat_model()
     features = model.predict(x_train, batch_size=100)
     with open(feature_file, 'wb') as f:
